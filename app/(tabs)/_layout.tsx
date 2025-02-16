@@ -1,55 +1,102 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Tabs } from 'expo-router';
-import { Pressable, useColorScheme } from 'react-native';
-
-import Colors from '../../constants/Colors';
-
-/**
- * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
- */
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-}
+import { Tabs } from 'expo-router';
+import { StyleSheet, View } from 'react-native';
+import { Feather } from '@expo/vector-icons';
+import { theme } from '../../constants/theme';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-      }}>
+        headerShown: false,
+        tabBarStyle: styles.tabBar,
+        tabBarActiveTintColor: theme.colors.primary,
+        tabBarInactiveTintColor: theme.colors.inactive,
+        tabBarBackground: () => (
+          <View style={styles.tabBarBackground}>
+            <View style={styles.tabBarCurve} />
+          </View>
+        ),
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
+          title: 'Home',
+          tabBarIcon: ({ color }) => (
+            <Feather name="home" size={24} color={color} />
           ),
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="yolopay"
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'YoloPay',
+          tabBarIcon: ({ color }) => (
+            <View style={styles.centerTab}>
+              <Feather name="credit-card" size={24} color={color} />
+            </View>
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="ginie"
+        options={{
+          title: 'Ginie',
+          tabBarIcon: ({ color }) => (
+            <Feather name="settings" size={24} color={color} />
+          ),
         }}
       />
     </Tabs>
   );
 }
+
+const styles = StyleSheet.create({
+  tabBar: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 60,
+    backgroundColor: 'transparent',
+    borderTopWidth: 0,
+    elevation: 0,
+  },
+  tabBarBackground: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 60,
+    backgroundColor: theme.colors.background,
+  },
+  tabBarCurve: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 60,
+    backgroundColor: theme.colors.background,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: -3,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+    elevation: 10,
+  },
+  centerTab: {
+    width: 50,
+    height: 50,
+    backgroundColor: theme.colors.background,
+    borderRadius: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 5,
+    borderWidth: 1,
+    borderColor: theme.colors.inactive,
+  },
+});

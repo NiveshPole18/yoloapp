@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import YoloPayScreen from '../../components/YoloPayScreen';
 
-export default function TabOneScreen() {
+export default function YoloPayTab() {
   return (
     <SafeAreaView style={styles.container}>
       <YoloPayScreen />
